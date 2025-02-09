@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  reverse-proxy:
+    image: traefik:v3.0
+    networks:
+      - webgateway
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./letsencrypt:/letsencrypt
+      - ./traefik.yml:/etc/traefik/traefik.yml
+      - ./traefik-conf:/etc/traefik/conf:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    command:
+      - "--configFile=/etc/traefik/traefik.yml"
+    restart: unless-stopped
+
+  client:
+    image: kainisoft/client
+    ports:
+      - "4200:4200"
+    networks:
+      - webgateway
+    restart: always
+#
+  server:
+    image: kainisoft/server
+    ports:
+      - "4000:4000"
+    networks:
+      - webgateway
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+
+networks:
+  webgateway:
+    name: webgateway
+    driver: bridge

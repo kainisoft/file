@@ -1,0 +1,14 @@
+http:
+  routers:
+    server:
+      rule: 'Host(`client.local:4200`)'
+      service: server
+      entryPoints: web
+      middlewares:
+        - "mycompress"
+
+  services:
+    server:
+      loadBalancer:
+        servers:
+          - url: 'http://client:4200/'

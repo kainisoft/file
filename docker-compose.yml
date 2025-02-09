@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - "4200:4200"
+    networks:
+      - webgateway
+    volumes:
+      - ./client/src:/app/src
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - "4000:4000"
+    networks:
+      - webgateway
+    volumes:
+      - ./server:/app
+
+networks:
+  webgateway:
+    driver: bridge

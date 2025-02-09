@@ -1,0 +1,36 @@
+http:
+  middlewares:
+    mycompress:
+      compress:
+        minResponseBodyBytes: 1200
+        includedContentTypes:
+          - application/json
+          - application/javascript
+          - text/html
+          - text/plain
+          - text/css
+          - image/jpeg
+          - image/webp
+          - image/x-icon
+    mycors:
+      headers:
+        frameDeny: true
+        browserXssFilter: true
+        contentTypeNosniff: true
+        accessControlAllowCredentials: true
+        accessControlAllowMethods:
+          - GET
+          - OPTIONS
+          - PUT
+          - POST
+        accessControlAllowHeaders: "*"
+        accessControlMaxAge: 100
+        addVaryHeader: true
+    myratelimit:
+      rateLimit:
+        average: 1000
+        burst: 1000
+        period: 1m
+        sourceCriterion:
+          ipStrategy:
+

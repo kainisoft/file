@@ -1,0 +1,15 @@
+http:
+  routers:
+    server:
+      rule: 'Host(`server.local:4000`)'
+      service: server
+      entryPoints: web
+      middlewares:
+        - mycors
+        - myratelimit
+
+  services:
+    server:
+      loadBalancer:
+        servers:
+          - url: 'http://server:4000/'

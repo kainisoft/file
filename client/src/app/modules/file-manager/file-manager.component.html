@@ -1,0 +1,28 @@
+<div class="absolute inset-0 flex min-w-0 flex-col overflow-hidden">
+  <div class="flex flex-auto flex-col">
+    <div
+      class="bg-card flex flex-col items-start border-b p-6 dark:bg-transparent sm:flex-row sm:items-center sm:justify-between sm:py-12 md:px-8"
+    >
+      <div>
+        <div
+          class="text-4xl font-extrabold leading-none tracking-tight"
+        >
+          Please, choose MP4 file
+        </div>
+      </div>
+      <div class="mt-4 sm:mt-0">
+        <form [formGroup]="form">
+          <input #file type="file" class="hidden" accept="video/mp4" formControlName="file">
+
+          <button mat-flat-button [color]="'primary'" (click)="file.click()">
+            <mat-icon fontIcon="add"></mat-icon>
+            <span class="ml-2 mr-1">Upload file</span>
+          </button>
+        </form>
+      </div>
+      @if (src) {
+        <img [src]="src"/>
+      }
+    </div>
+  </div>
+</div>
